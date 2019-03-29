@@ -1,6 +1,7 @@
 package com.kumail.hintpod.data
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Suggestion(
         @SerializedName("key") val key: String,
@@ -10,4 +11,4 @@ data class Suggestion(
         @SerializedName("projectId") val projectId: String,
         @SerializedName("status") val status: String,
         @SerializedName("voteCount") val voteCount: Int
-)
+) : Serializable

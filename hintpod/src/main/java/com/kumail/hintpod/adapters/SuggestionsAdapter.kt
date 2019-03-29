@@ -11,6 +11,7 @@ import com.kumail.hintpod.R
 import com.kumail.hintpod.data.Suggestion
 import com.kumail.hintpod.activities.SuggestionDetailedActivity
 import kotlinx.android.synthetic.main.item_suggestion.view.*
+import java.io.Serializable
 
 class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Context) : RecyclerView.Adapter<SuggestionsAdapter.ViewHolder>() {
 
@@ -28,27 +29,23 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.suggestionTitleTextView?.text = suggestionsList[position].title
         holder.suggestionBodyTextView?.text = suggestionsList[position].content
+
         val status = suggestionsList[position].status
         holder.suggestionStatusTextView?.text = status
-        if(status == "Pending")
+        if(status == context.getString(R.string.status_pending))
             holder.statusIndicatorImageView.setImageResource(R.drawable.status_indicator_pending)
-        else if(status == "Done")
+        else if(status == context.getString(R.string.status_approved))
             holder.statusIndicatorImageView.setImageResource(R.drawable.status_indicator_approved)
         else
             holder.statusIndicatorImageView.setImageResource(R.drawable.status_indicator_rejected)
 
 
         holder.itemView.setOnClickListener {
-            val suggestionId = suggestionsList[position].key
-
-            println("suggestion adapter: $suggestionId")
 
             val intent = Intent(context, SuggestionDetailedActivity::class.java)
-            intent.putExtra("suggestionId", suggestionId)
-//            intent.putExtra("suggestionId", suggestionsList[position])
+            intent.putExtra("suggestionObject", suggestionsList[position] as Serializable)
             ContextCompat.startActivity(context, intent, null)
 //            context.startActivity(intent)
-
 
         }
 //        Picasso

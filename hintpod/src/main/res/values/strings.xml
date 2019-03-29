@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name_hp">HintPod</string>
     <string name="comments">Comments</string>
+    <string name="status_approved">Approved</string>
+    <string name="status_pending">Pending</string>
+    <string name="status_rejected">Rejected</string>
 </resources>

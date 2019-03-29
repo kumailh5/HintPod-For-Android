@@ -24,8 +24,8 @@ class MainActivity : AppCompatActivity() {
         // Creates a vertical Layout Manager
         rv_suggestions.layoutManager = LinearLayoutManager(this)
 
-        val suggestionsApi = RetrofitClient().getClient()
-        val response = suggestionsApi.getSuggestions()
+        val apiService = RetrofitClient().getClient()
+        val response = apiService.getSuggestions()
         response.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
             println("SIZE")
             println(it.size)

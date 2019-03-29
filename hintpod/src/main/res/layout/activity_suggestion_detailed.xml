@@ -6,78 +6,78 @@
     tools:context=".activities.SuggestionDetailedActivity">
 
     <LinearLayout
+        android:id="@+id/ll_suggestion"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/iv_status_indicator"
-            android:layout_width="50dp"
-            android:layout_height="100dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="0dp"
-            android:paddingBottom="16dp"
-            android:paddingTop="16dp" />
+            <ImageView
+                android:id="@+id/iv_status_indicator"
+                android:layout_width="50dp"
+                android:layout_height="100dp"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="0dp"
+                android:paddingBottom="16dp" />
 
-    </RelativeLayout>
+        </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_suggestion_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:textSize="30sp" />
+            <TextView
+                android:id="@+id/tv_suggestion_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textSize="30sp" />
 
-        <TextView
-            android:id="@+id/tv_suggestion_body"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_suggestion_title"
-            android:paddingLeft="16dp"
-            android:paddingTop="0dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="16dp"
-            android:maxLines = "2"
-            android:ellipsize="end"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/tv_suggestion_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_suggestion_title"
+                android:paddingLeft="16dp"
+                android:paddingTop="0dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/tv_suggestion_status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_suggestion_body"
-            android:paddingLeft="16dp"
-            android:paddingTop="0dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="16dp"
-            android:textSize="15sp" />
+            <TextView
+                android:id="@+id/tv_suggestion_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_suggestion_body"
+                android:paddingLeft="16dp"
+                android:paddingTop="0dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp"
+                android:textSize="15sp" />
 
 
-    </RelativeLayout>
+        </RelativeLayout>
     </LinearLayout>
-
 
     <TextView
         android:id="@+id/tv_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/comments"
+        android:layout_below="@id/ll_suggestion"
+        android:paddingBottom="20dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        android:text="@string/comments"
         android:textSize="25sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_comments"
-        android:layout_below="@id/tv_comment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/tv_comment" />
 
 </RelativeLayout>
