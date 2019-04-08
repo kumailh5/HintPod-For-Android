@@ -16,7 +16,7 @@ class SuggestionsAdapter(val items : ArrayList<String>, val body : ArrayList<Str
 
     // Inflates the item views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_suggestion, parent, false))
+        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.hintpod_item_suggestion, parent, false))
     }
 
     // Binds each animal in the ArrayList to a view
@@ -25,11 +25,11 @@ class SuggestionsAdapter(val items : ArrayList<String>, val body : ArrayList<Str
         holder.tvSuggestionBody?.text = body.get(0)
         holder.tvSuggestionStatus?.text = status.get(0)
         if(status.get(1) == "Pending")
-            holder.ivStatusIndicator.setImageResource(R.drawable.status_indicator_pending)
+            holder.ivStatusIndicator.setImageResource(R.drawable.hintpod_status_indicator_pending)
         else if(status.get(1) == "Approved")
-            holder.ivStatusIndicator.setImageResource(R.drawable.status_indicator_approved)
+            holder.ivStatusIndicator.setImageResource(R.drawable.hintpod_status_indicator_approved)
         else
-            holder.ivStatusIndicator.setImageResource(R.drawable.status_indicator_rejected)
+            holder.ivStatusIndicator.setImageResource(R.drawable.hintpod_status_indicator_rejected)
 
 
 //        Picasso

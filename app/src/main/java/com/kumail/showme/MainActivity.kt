@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        HintPod().verify("k5@gmail.com","765678298", "Kumail")
+
         // Loads animals into the ArrayList
         addAnimals()
         addDesc()
@@ -40,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
-        inflater.inflate(R.menu.menu, menu)
+        inflater.inflate(R.menu.menu_toolbar, menu)
         return true
     }
 

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kumail.hintpod.R
 import com.kumail.hintpod.data.Suggestion
 import com.kumail.hintpod.activities.SuggestionDetailedActivity
-import kotlinx.android.synthetic.main.item_suggestion.view.*
+import kotlinx.android.synthetic.main.hintpod_item_suggestion.view.*
 import java.io.Serializable
 
 class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Context) : RecyclerView.Adapter<SuggestionsAdapter.ViewHolder>() {
@@ -22,7 +22,7 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
 
     // Inflates the item views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_suggestion, parent, false))
+        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.hintpod_item_suggestion, parent, false))
     }
 
     // Binds each animal in the ArrayList to a view
@@ -32,12 +32,12 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
 
         val status = suggestionsList[position].status
         holder.suggestionStatusTextView?.text = status
-        if(status == context.getString(R.string.status_pending))
-            holder.statusIndicatorImageView.setImageResource(R.drawable.status_indicator_pending)
-        else if(status == context.getString(R.string.status_approved))
-            holder.statusIndicatorImageView.setImageResource(R.drawable.status_indicator_approved)
+        if(status == context.getString(R.string.hintpod_status_pending))
+            holder.statusIndicatorImageView.setImageResource(R.drawable.hintpod_status_indicator_pending)
+        else if(status == context.getString(R.string.hintpod_status_approved))
+            holder.statusIndicatorImageView.setImageResource(R.drawable.hintpod_status_indicator_approved)
         else
-            holder.statusIndicatorImageView.setImageResource(R.drawable.status_indicator_rejected)
+            holder.statusIndicatorImageView.setImageResource(R.drawable.hintpod_status_indicator_rejected)
 
 
         holder.itemView.setOnClickListener {
