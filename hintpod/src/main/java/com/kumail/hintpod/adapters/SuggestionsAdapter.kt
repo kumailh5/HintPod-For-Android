@@ -36,7 +36,7 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
         if (payloads.isNotEmpty()) {
             val suggestion = payloads[0] as Suggestion
-            if (suggestion.local) {
+//            if (suggestion.local) {
                 if (suggestion.upEnabled) {
                     holder.upvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_green))
                     holder.downvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_grey))
@@ -50,7 +50,14 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
                     holder.downvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_grey))
 
                 }
-            }
+
+                holder.itemView.setOnClickListener {
+                    val intent = Intent(context, SuggestionDetailedActivity::class.java)
+                    intent.putExtra("suggestionObject", suggestion as Serializable)
+                    intent.putExtra("position", position)
+                    (context as Activity).startActivityForResult(intent, 1)
+                }
+//            }
             println("MainAc bindview $suggestion")
         } else {
             super.onBindViewHolder(holder, position, payloads)
@@ -98,6 +105,8 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
                     println("Vote: $it")
                 }
                 suggestion.upEnabled = false
+                notifyItemChanged(position, suggestion)
+
             } else {
                 holder.upvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_green))
                 holder.downvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_grey))
@@ -107,6 +116,8 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
                 }
                 suggestion.upEnabled = true
                 suggestion.downEnabled = false
+                notifyItemChanged(position, suggestion)
+
             }
         }
 
@@ -118,6 +129,7 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
                     println("Vote: $it")
                 }
                 suggestion.downEnabled = false
+                notifyItemChanged(position, suggestion)
             } else {
                 holder.upvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_grey))
                 holder.downvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_red))
@@ -127,6 +139,7 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
                 }
                 suggestion.downEnabled = true
                 suggestion.upEnabled = false
+                notifyItemChanged(position, suggestion)
             }
         }
 

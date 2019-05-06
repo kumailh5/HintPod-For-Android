@@ -72,6 +72,9 @@ class SuggestionDetailedActivity : AppCompatActivity() {
 
         } else if (suggestion.downEnabled) {
             downvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_red))
+        } else {
+            upvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_grey))
+            downvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_grey))
         }
 
         upvoteImageView.setOnClickListener {
