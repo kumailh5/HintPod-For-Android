@@ -22,61 +22,20 @@ interface ApiService {
 
     @GET("addSuggestion")
     fun addSuggestion(@Query("title") title: String,
-                   @Query("content") content: String,
-                   @Query("userId") userId: String,
-                   @Query("projectId") projectId: String): Observable<String>
+                      @Query("content") content: String,
+                      @Query("userId") userId: String,
+                      @Query("projectId") projectId: String): Observable<String>
 
     @GET("addComment")
     fun addComment(@Query("content") content: String,
-                      @Query("userId") userId: String,
-                      @Query("suggestionId") suggestionId: String): Observable<String>
+                   @Query("userId") userId: String,
+                   @Query("suggestionId") suggestionId: String): Observable<String>
 
-
-//    @GET("league-tables?competition_id=49")
-//    abstract fun getLeagueTables(@Query("api_key") api_key: String): Call<List<TableApiResponse>>
-//
-//
-//    @GET("league-tables?competition_id=49")
-//    Call<List<TableApiResponse>> getLeagueTables(@Query("api_key") String api_key);
-
-//    companion object {
-//        fun create(): ApiService {
-//
-//            val retrofit = Retrofit.Builder()
-//                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-//                    .addConverterFactory(GsonConverterFactory.create())
-//                    .baseUrl("https://us-central1-hintpod.cloudfunctions.net/")
-//                    .build()
-//
-//            return retrofit.create(ApiService::class.java)
-//        }
-//    }
-
-//    companion object {
-//        fun create(): WikiApiService {
-//
-//            val retrofit = Retrofit.Builder()
-//                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-//                    .addConverterFactory(GsonConverterFactory.create())
-//                    .baseUrl("https://en.wikipedia.org/w/")
-//                    .build()
-//
-//            return retrofit.create(WikiApiService::class.java)
-//        }
-//    }
-
-//    private var retrofit: Retrofit? = null
-//
-//    fun getClient(baseUrl: String): Retrofit {
-//        if (retrofit == null) {
-//            retrofit = Retrofit.Builder()
-//                    .baseUrl(baseUrl)
-//                    .addConverterFactory(GsonConverterFactory.create())
-//                    .build()
-//        }
-//
-//        return retrofit
-//    }
+    @GET("voteSuggestion")
+    fun voteSuggestion(@Query("userId") userId: String,
+                       @Query("suggestionId") suggestionId: String,
+                       @Query("upvote") upvote: String,
+                       @Query("voting") voting: String): Observable<String>
 
 
 }

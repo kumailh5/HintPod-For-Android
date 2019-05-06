@@ -23,7 +23,7 @@ class CommentsAdapter(val commentsList: List<Comment>, val context: Context) : R
 
     // Binds each animal in the ArrayList to a view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.commentTextView?.text = commentsList[position].content
+        holder.commentTextView.text = commentsList[position].content
 //        holder.tvSuggestionBody?.text = suggestionList.get(position).content
 
 //        Picasso

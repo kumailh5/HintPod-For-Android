@@ -27,10 +27,10 @@ class MainActivity : AppCompatActivity() {
         addStatus()
 
         // Creates a vertical Layout Manager
-        rv_suggestions.layoutManager = LinearLayoutManager(this)
+//        rv_suggestions.layoutManager = LinearLayoutManager(this)
 
         // Access the RecyclerView Adapter and load the data into it
-        rv_suggestions.adapter = SuggestionsAdapter(animals, desc, status, this)
+//        rv_suggestions.adapter = SuggestionsAdapter(animals, desc, status, this)
 
 
 //        btn.setOnClickListener {

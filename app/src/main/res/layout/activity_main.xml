@@ -13,10 +13,10 @@
         <!--android:layout_height="wrap_content"-->
         <!--tools:ignore="MissingConstraints" />-->
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_suggestions"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <!--<androidx.recyclerview.widget.RecyclerView-->
+        <!--android:id="@+id/rv_suggestions"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
 
     <!--<com.google.android.material.floatingactionbutton.FloatingActionButton-->
         <!--android:id="@+id/floating_action_button"-->
@@ -27,6 +27,12 @@
         <!--app:srcCompat="@drawable/ic_launcher_foreground"-->
         <!--tools:ignore="MissingConstraints" />-->
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="35sp"
+        android:text="Your app's \n content here"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

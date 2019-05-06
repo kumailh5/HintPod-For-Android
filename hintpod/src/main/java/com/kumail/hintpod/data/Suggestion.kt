@@ -10,5 +10,9 @@ data class Suggestion(
         @SerializedName("content") val content: String,
         @SerializedName("projectId") val projectId: String,
         @SerializedName("status") val status: String,
-        @SerializedName("voteCount") val voteCount: Int
+        @SerializedName("voteCount") val voteCount: Int,
+        @SerializedName("votes") val votes: Map<String, String>,
+        var upEnabled: Boolean = false,
+        var downEnabled: Boolean = false,
+        var local: Boolean = false
 ) : Serializable

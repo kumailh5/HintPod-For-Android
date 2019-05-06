@@ -1,5 +1,7 @@
 package com.kumail.hintpod.activities
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.View.inflate
@@ -12,6 +14,7 @@ import com.kumail.hintpod.HintPod.Companion.firebaseUId
 import com.kumail.hintpod.R
 import com.kumail.hintpod.RetrofitClient
 import com.kumail.hintpod.adapters.SuggestionsAdapter
+import com.kumail.hintpod.data.Suggestion
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.internal.schedulers.IoScheduler
 import kotlinx.android.synthetic.main.hintpod_activity_main.*
@@ -20,28 +23,32 @@ import kotlinx.android.synthetic.main.hintpod_dialog_add_suggestion.view.*
 
 class MainActivity : AppCompatActivity() {
 
+    var adp: SuggestionsAdapter? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.hintpod_activity_main)
-
         // Creates a vertical Layout Manager
         rv_suggestions.layoutManager = LinearLayoutManager(this)
 
+
         val apiService = RetrofitClient().getClient()
+
         val responseGet = apiService.getSuggestions()
         responseGet.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
             println("SIZE")
             println(it.size)
-            rv_suggestions.adapter = SuggestionsAdapter(it, this)
+            adp = SuggestionsAdapter(it, this)
+            rv_suggestions.adapter = adp
+            println("MainActivity oncreate")
+
 
         }
 
         val fab: View = findViewById(R.id.fab_suggestions)
         fab.setOnClickListener { view ->
-
-
             val dialogBuilder = AlertDialog.Builder(this)
-
             // set message of alert dialog
 //            dialogBuilder.setMessage("Do you want to add a suggestion?")
 //                    // if the dialog is cancelable
@@ -61,8 +68,6 @@ class MainActivity : AppCompatActivity() {
                     .setCancelable(true)
 
                     .setPositiveButton("Submit") { dialog, id ->
-
-
                         val title = dialogView.et_title
                         val content = dialogView.et_content
 
@@ -82,15 +87,13 @@ class MainActivity : AppCompatActivity() {
                                     .setAction("Action", null)
                                     .show()
                         }
-                            println("ADD Empty")
+                        println("ADD Empty")
 
                     }
                     // negative button text and action
                     .setNegativeButton("Cancel") { dialog, id ->
                         dialog.cancel()
                     }
-
-
             // create dialog box
             val alert = dialogBuilder.create()
             // set title for alert dialog box
@@ -99,7 +102,31 @@ class MainActivity : AppCompatActivity() {
             alert.show()
 
         }
+
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                val result = data!!.getStringExtra("result")
+                val res = data.getSerializableExtra("updatedSuggestion") as Suggestion
+                val position = data.getSerializableExtra("position") as Int
+                println("MainAct $res")
+                println("MainActivity $result")
+                res.local = true
+                adp?.updateAdapter(res, position)
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+                println("MainActivity noooo result code")
+
+            }
+        }
+
+    }//onActivityResult
+
 
 //    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 //        return activity?.let {

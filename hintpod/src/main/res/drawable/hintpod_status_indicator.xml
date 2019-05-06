@@ -4,7 +4,7 @@
     android:shape="oval">
 
     <solid
-        android:color="#ffff56"/>
+        android:color="@color/hintpod_grey"/>
 
     <size
         android:width="120dp"

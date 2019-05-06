@@ -4,10 +4,12 @@
     <item
         android:id="@+id/action_search"
         android:title="Search" />
-    <item
-        android:id="@+id/action_hintpod"
-        android:title="HintPod" />
+
     <item
         android:id="@+id/action_setting"
         android:title="Setting" />
+
+    <item
+        android:id="@+id/action_hintpod"
+        android:title="HintPod" />
 </menu>
