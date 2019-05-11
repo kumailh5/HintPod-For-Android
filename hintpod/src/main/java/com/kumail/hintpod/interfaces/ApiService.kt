@@ -15,7 +15,8 @@ interface ApiService {
                    @Query("name") name: String?): Observable<String>
 
     @GET("loadSuggestions")
-    fun getSuggestions(): Observable<List<Suggestion>>
+    fun getSuggestions(@Query("projectId") projectId: String,
+                       @Query("suggestionId") userId: String?): Observable<List<Suggestion>>
 
     @GET("loadComments")
     fun getComments(@Query("suggestionId") suggestionId: String): Observable<List<Comment>>

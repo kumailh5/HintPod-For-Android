@@ -36,7 +36,6 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
         if (payloads.isNotEmpty()) {
             val suggestion = payloads[0] as Suggestion
-//            if (suggestion.local) {
                 if (suggestion.upEnabled) {
                     holder.upvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_green))
                     holder.downvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_grey))
@@ -57,7 +56,6 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
                     intent.putExtra("position", position)
                     (context as Activity).startActivityForResult(intent, 1)
                 }
-//            }
             println("MainAc bindview $suggestion")
         } else {
             super.onBindViewHolder(holder, position, payloads)

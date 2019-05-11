@@ -1,5 +1,7 @@
 package com.kumail.hintpod.activities
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -15,15 +17,12 @@ import com.kumail.hintpod.data.Suggestion
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.internal.schedulers.IoScheduler
 import kotlinx.android.synthetic.main.hintpod_activity_suggestion_detailed.*
-import android.app.Activity
-import android.content.Intent
-
 
 
 class SuggestionDetailedActivity : AppCompatActivity() {
-//    private lateinit var btnProceed: Button
+    //    private lateinit var btnProceed: Button
     private lateinit var suggestion: Suggestion
-    private  var position: Int = 0
+    private var position: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,17 +122,22 @@ class SuggestionDetailedActivity : AppCompatActivity() {
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
                 //Perform Code
 
-                val s = addCommentEditText.text
-                println("Comment $s")
+                val comment = addCommentEditText.text
+                println("Comment $comment")
 
-                val responseAddComment = apiService.addComment(addCommentEditText.text.toString(), firebaseUId, suggestion.key)
-                responseAddComment.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
-                    println("ADD $it")
-                    println("ADD ${suggestion.key}")
-                    println("ADD $firebaseUId")
+                if (comment.isNotEmpty()) {
+                    val responseAddComment = apiService.addComment(addCommentEditText.text.toString(), firebaseUId, suggestion.key)
+                    responseAddComment.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
+                        println("ADD $it")
+                        println("ADD ${suggestion.key}")
+                        println("ADD $firebaseUId")
 
-                    Snackbar.make(v, "Submitted", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null)
+                        addCommentEditText.text.clear()
+                        Snackbar.make(v, "Submitted", Snackbar.LENGTH_LONG)
+                                .show()
+                    }
+                } else {
+                    Snackbar.make(v, "You haven't typed anything", Snackbar.LENGTH_LONG)
                             .show()
                 }
                 return@OnKeyListener true
@@ -155,7 +159,6 @@ class SuggestionDetailedActivity : AppCompatActivity() {
     override fun onBackPressed() {
 //        super.onBackPressed()
         val returnIntent = Intent()
-        returnIntent.putExtra("result", "result value")
         returnIntent.putExtra("updatedSuggestion", suggestion)
         returnIntent.putExtra("position", position)
         println("Mainac on back $suggestion")

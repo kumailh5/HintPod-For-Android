@@ -8,6 +8,7 @@ import android.view.View.inflate
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import com.kumail.hintpod.HintPod.Companion.firebasePId
 import com.kumail.hintpod.HintPod.Companion.firebaseUId
@@ -23,7 +24,7 @@ import kotlinx.android.synthetic.main.hintpod_dialog_add_suggestion.view.*
 
 class MainActivity : AppCompatActivity() {
 
-    var adp: SuggestionsAdapter? = null
+    var suggestionsAdapter: SuggestionsAdapter? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,19 +36,16 @@ class MainActivity : AppCompatActivity() {
 
         val apiService = RetrofitClient().getClient()
 
-        val responseGet = apiService.getSuggestions()
+        val responseGet = apiService.getSuggestions(firebasePId, null)
         responseGet.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
             println("SIZE")
             println(it.size)
-            adp = SuggestionsAdapter(it, this)
-            rv_suggestions.adapter = adp
+            suggestionsAdapter = SuggestionsAdapter(it, this)
+            rv_suggestions.adapter = suggestionsAdapter
             println("MainActivity oncreate")
-
-
         }
 
-        val fab: View = findViewById(R.id.fab_suggestions)
-        fab.setOnClickListener { view ->
+        fab_suggestions.setOnClickListener { view ->
             val dialogBuilder = AlertDialog.Builder(this)
             // set message of alert dialog
 //            dialogBuilder.setMessage("Do you want to add a suggestion?")
@@ -58,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 //                        dialog, id -> finish()
 //                    })
 //                    // negative button text and action
-//                    .setNegativeButton("Cancel", DialogInterface.OnClickListener {
+//                    .setNegativeButton("Cancel", DialogInterface.OnClickListener {e
 //                        dialog, id -> dialog.cancel()
 //                    })
 
@@ -72,6 +70,7 @@ class MainActivity : AppCompatActivity() {
                         val content = dialogView.et_content
 
                         if (title.text.isNotEmpty()) {
+                            println("ADD ${title.text}")
 
                             val responseAdd = apiService.addSuggestion(title.text.toString(), content.text.toString(), firebaseUId, firebasePId)
                             responseAdd.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
@@ -87,7 +86,6 @@ class MainActivity : AppCompatActivity() {
                                     .setAction("Action", null)
                                     .show()
                         }
-                        println("ADD Empty")
 
                     }
                     // negative button text and action
@@ -100,54 +98,52 @@ class MainActivity : AppCompatActivity() {
             alert.setTitle("Add Suggestion")
             // show alert dialog
             alert.show()
+        }
+
+        /*
+ * Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
+ * performs a swipe-to-refresh gesture.
+ */
+        sr_suggestions.setOnRefreshListener {
+            println("onRefresh called from SwipeRefreshLayout")
+
+            // This method performs the actual data-refresh operation.
+            // The method calls setRefreshing(false) when it's finished.
+            updateData()
 
         }
 
     }
 
+    private fun updateData(){
+        val responseGet = RetrofitClient().getClient().getSuggestions(firebasePId, null)
+        responseGet.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
+            println("SIZE")
+            println(it.size)
+            suggestionsAdapter = SuggestionsAdapter(it, this)
+            rv_suggestions.adapter = suggestionsAdapter
+            println("MainActivity update oncreate")
+            sr_suggestions.isRefreshing = false
+
+        }
+    }
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                val result = data!!.getStringExtra("result")
-                val res = data.getSerializableExtra("updatedSuggestion") as Suggestion
+                val suggestion = data?.getSerializableExtra("updatedSuggestion") as Suggestion
                 val position = data.getSerializableExtra("position") as Int
-                println("MainAct $res")
-                println("MainActivity $result")
-                res.local = true
-                adp?.updateAdapter(res, position)
+                println("MainAct $suggestion")
+                suggestionsAdapter?.updateAdapter(suggestion, position)
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
-                println("MainActivity noooo result code")
-
+                println("MainActivity no result code")
             }
         }
 
     }//onActivityResult
-
-
-//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//        return activity?.let {
-//            val builder = AlertDialog.Builder(it)
-//            // Get the layout inflater
-//            val inflater = requireActivity().layoutInflater;
-//
-//            // Inflate and set the layout for the dialog
-//            // Pass null as the parent view because its going in the dialog layout
-//            builder.setView(inflater.inflate(R.layout.hintpod_dialog_add_suggestion, null))
-//                    // Add action buttons
-//                    .setPositiveButton("ok",
-//                            DialogInterface.OnClickListener { dialog, id ->
-//                                // sign in the user ...
-//                            })
-//                    .setNegativeButton("no",
-//                            DialogInterface.OnClickListener { dialog, id ->
-//                                getDialog().cancel()
-//                            })
-//            builder.create()
-//        } ?: throw IllegalStateException("Activity cannot be null")
-//    }
 
 }
