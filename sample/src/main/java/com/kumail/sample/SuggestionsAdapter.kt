@@ -1,4 +1,4 @@
-package com.kumail.showme
+package com.kumail.sample
 
 import android.content.Context
 import android.view.LayoutInflater

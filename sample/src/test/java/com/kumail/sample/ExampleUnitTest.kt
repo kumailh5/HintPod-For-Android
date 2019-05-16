@@ -1,4 +1,4 @@
-package com.kumail.showme
+package com.kumail.sample
 
 import org.junit.Test
 

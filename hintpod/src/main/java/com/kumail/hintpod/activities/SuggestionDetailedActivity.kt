@@ -20,7 +20,6 @@ import kotlinx.android.synthetic.main.hintpod_activity_suggestion_detailed.*
 
 
 class SuggestionDetailedActivity : AppCompatActivity() {
-    //    private lateinit var btnProceed: Button
     private lateinit var suggestion: Suggestion
     private var position: Int = 0
 
@@ -80,17 +79,21 @@ class SuggestionDetailedActivity : AppCompatActivity() {
             if (suggestion.upEnabled) {
                 upvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_grey))
                 val responseVoteSuggestion = apiService.voteSuggestion(firebaseUId, suggestion.key, "true", "false")
-                responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
-                    println("Vote: $it")
-                }
+                responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(IoScheduler())
+                        .subscribe(
+                                { result -> println("Vote $result") },
+                                { error -> println("Error $error") })
                 suggestion.upEnabled = false
             } else {
                 upvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_green))
                 downvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_grey))
                 val responseVoteSuggestion = apiService.voteSuggestion(firebaseUId, suggestion.key, "true", "true")
-                responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
-                    println("Vote: $it")
-                }
+                responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(IoScheduler())
+                        .subscribe(
+                                { result -> println("Vote $result") },
+                                { error -> println("Error $error") })
                 suggestion.upEnabled = true
                 suggestion.downEnabled = false
             }
@@ -101,17 +104,21 @@ class SuggestionDetailedActivity : AppCompatActivity() {
             if (suggestion.downEnabled) {
                 downvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_grey))
                 val responseVoteSuggestion = apiService.voteSuggestion(firebaseUId, suggestion.key, "false", "false")
-                responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
-                    println("Vote: $it")
-                }
+                responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(IoScheduler())
+                        .subscribe(
+                                { result -> println("Vote $result") },
+                                { error -> println("Error $error") })
                 suggestion.downEnabled = false
             } else {
                 upvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_grey))
                 downvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_red))
                 val responseVoteSuggestion = apiService.voteSuggestion(firebaseUId, suggestion.key, "false", "true")
-                responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
-                    println("Vote: $it")
-                }
+                responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(IoScheduler())
+                        .subscribe(
+                                { result -> println("Vote $result") },
+                                { error -> println("Error $error") })
                 suggestion.downEnabled = true
                 suggestion.upEnabled = false
 
@@ -127,15 +134,18 @@ class SuggestionDetailedActivity : AppCompatActivity() {
 
                 if (comment.isNotEmpty()) {
                     val responseAddComment = apiService.addComment(addCommentEditText.text.toString(), firebaseUId, suggestion.key)
-                    responseAddComment.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
-                        println("ADD $it")
-                        println("ADD ${suggestion.key}")
-                        println("ADD $firebaseUId")
-
-                        addCommentEditText.text.clear()
-                        Snackbar.make(v, "Submitted", Snackbar.LENGTH_LONG)
-                                .show()
-                    }
+                    responseAddComment.observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(IoScheduler())
+                            .subscribe(
+                                    { result ->
+                                        println("ADD $result")
+                                        println("ADD ${suggestion.key}")
+                                        println("ADD $firebaseUId")
+                                        addCommentEditText.text.clear()
+                                        Snackbar.make(v, "Submitted", Snackbar.LENGTH_LONG)
+                                                .show()
+                                    },
+                                    { error -> println("Error $error") })
                 } else {
                     Snackbar.make(v, "You haven't typed anything", Snackbar.LENGTH_LONG)
                             .show()
@@ -149,15 +159,18 @@ class SuggestionDetailedActivity : AppCompatActivity() {
         rv_comments.layoutManager = LinearLayoutManager(this)
 
         val responseGetComments = apiService.getComments(suggestion.key)
-        responseGetComments.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
-            rv_comments.adapter = CommentsAdapter(it, this)
-        }
+        responseGetComments.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(IoScheduler())
+                .subscribe(
+                        { result ->
+                            rv_comments.adapter = CommentsAdapter(result, this)
+                        },
+                        { error -> println("Error $error") })
 
         println("here suggestion detailed act")
     }
 
     override fun onBackPressed() {
-//        super.onBackPressed()
         val returnIntent = Intent()
         returnIntent.putExtra("updatedSuggestion", suggestion)
         returnIntent.putExtra("position", position)

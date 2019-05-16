@@ -1,1 +1,1 @@
-include ':app', ':hintpod'
+include ':sample', ':hintpod'

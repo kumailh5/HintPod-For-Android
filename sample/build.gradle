@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.kumail.showme"
+        applicationId "com.kumail.sample"
         minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
@@ -26,6 +26,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation project(':hintpod')
+//    implementation 'com.hintpod:hintpod:0.1'
+
 
     implementation 'com.google.android.material:material:1.1.0-alpha05'
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
@@ -39,3 +41,4 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 }
+

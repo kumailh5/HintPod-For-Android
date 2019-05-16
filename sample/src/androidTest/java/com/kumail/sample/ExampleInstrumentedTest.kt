@@ -1,4 +1,4 @@
-package com.kumail.showme
+package com.kumail.sample
 
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("com.kumail.showme", appContext.packageName)
+        assertEquals("com.kumail.sample", appContext.packageName)
     }
 }

@@ -1,6 +1,11 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+
+
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
 
 android {
     compileSdkVersion 28
@@ -46,9 +51,43 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
 }
+
 repositories {
     google()
     jcenter()
     mavenCentral()
 }
+
+ext {
+    bintrayRepo = 'hintpod'
+    bintrayName = 'hintpod'
+
+    publishedGroupId = 'com.hintpod'
+    libraryName = 'HintPod'
+    artifact = 'hintpod'
+
+    libraryDescription = 'Library plugin for HintPod'
+
+    siteUrl = 'https://www.hintpod.com'
+    gitUrl = 'https://github.com/kumailh5/HintPod-For-Android/'
+
+    libraryVersion = '0.1'
+
+    developerId = 'kumailh5'
+    developerName = 'Kumail Hussain'
+    developerEmail = 'kumailhussain97@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+tasks.withType(Javadoc) {
+       enabled = false
+    }
+
+
+apply from:'publish.gradle'
+

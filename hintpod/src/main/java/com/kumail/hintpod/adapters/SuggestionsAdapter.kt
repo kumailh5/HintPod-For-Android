@@ -36,26 +36,26 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
         if (payloads.isNotEmpty()) {
             val suggestion = payloads[0] as Suggestion
-                if (suggestion.upEnabled) {
-                    holder.upvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_green))
-                    holder.downvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_grey))
+            if (suggestion.upEnabled) {
+                holder.upvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_green))
+                holder.downvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_grey))
 
-                } else if (suggestion.downEnabled) {
-                    holder.downvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_red))
-                    holder.upvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_grey))
+            } else if (suggestion.downEnabled) {
+                holder.downvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_red))
+                holder.upvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_grey))
 
-                } else {
-                    holder.upvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_grey))
-                    holder.downvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_grey))
+            } else {
+                holder.upvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_grey))
+                holder.downvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_grey))
 
-                }
+            }
 
-                holder.itemView.setOnClickListener {
-                    val intent = Intent(context, SuggestionDetailedActivity::class.java)
-                    intent.putExtra("suggestionObject", suggestion as Serializable)
-                    intent.putExtra("position", position)
-                    (context as Activity).startActivityForResult(intent, 1)
-                }
+            holder.itemView.setOnClickListener {
+                val intent = Intent(context, SuggestionDetailedActivity::class.java)
+                intent.putExtra("suggestionObject", suggestion as Serializable)
+                intent.putExtra("position", position)
+                (context as Activity).startActivityForResult(intent, 1)
+            }
             println("MainAc bindview $suggestion")
         } else {
             super.onBindViewHolder(holder, position, payloads)
@@ -99,9 +99,11 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
             if (suggestion.upEnabled) {
                 holder.upvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_grey))
                 val responseVoteSuggestion = apiService.voteSuggestion(firebaseUId, suggestion.key, "true", "false")
-                responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
-                    println("Vote: $it")
-                }
+                responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(IoScheduler())
+                        .subscribe(
+                                { result -> println("Vote $result") },
+                                { error -> println("Error $error") })
                 suggestion.upEnabled = false
                 notifyItemChanged(position, suggestion)
 
@@ -109,9 +111,11 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
                 holder.upvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_green))
                 holder.downvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_grey))
                 val responseVoteSuggestion = apiService.voteSuggestion(firebaseUId, suggestion.key, "true", "true")
-                responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
-                    println("Vote: $it")
-                }
+                responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(IoScheduler())
+                        .subscribe(
+                                { result -> println("Vote $result") },
+                                { error -> println("Error $error") })
                 suggestion.upEnabled = true
                 suggestion.downEnabled = false
                 notifyItemChanged(position, suggestion)
@@ -123,18 +127,22 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
             if (suggestion.downEnabled) {
                 holder.downvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_grey))
                 val responseVoteSuggestion = apiService.voteSuggestion(firebaseUId, suggestion.key, "false", "false")
-                responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
-                    println("Vote: $it")
-                }
+                responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(IoScheduler())
+                        .subscribe(
+                                { result -> println("Vote $result") },
+                                { error -> println("Error $error") })
                 suggestion.downEnabled = false
                 notifyItemChanged(position, suggestion)
             } else {
                 holder.upvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_grey))
                 holder.downvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_red))
                 val responseVoteSuggestion = apiService.voteSuggestion(firebaseUId, suggestion.key, "false", "true")
-                responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
-                    println("Vote: $it")
-                }
+                responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(IoScheduler())
+                        .subscribe(
+                                { result -> println("Vote $result") },
+                                { error -> println("Error $error") })
                 suggestion.downEnabled = true
                 suggestion.upEnabled = false
                 notifyItemChanged(position, suggestion)

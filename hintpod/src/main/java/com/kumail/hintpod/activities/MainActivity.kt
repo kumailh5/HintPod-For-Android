@@ -3,12 +3,10 @@ package com.kumail.hintpod.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.view.View.inflate
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import com.kumail.hintpod.HintPod.Companion.firebasePId
 import com.kumail.hintpod.HintPod.Companion.firebaseUId
@@ -26,39 +24,29 @@ class MainActivity : AppCompatActivity() {
 
     var suggestionsAdapter: SuggestionsAdapter? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.hintpod_activity_main)
         // Creates a vertical Layout Manager
         rv_suggestions.layoutManager = LinearLayoutManager(this)
 
-
         val apiService = RetrofitClient().getClient()
 
         val responseGet = apiService.getSuggestions(firebasePId, null)
-        responseGet.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
-            println("SIZE")
-            println(it.size)
-            suggestionsAdapter = SuggestionsAdapter(it, this)
-            rv_suggestions.adapter = suggestionsAdapter
-            println("MainActivity oncreate")
-        }
+        responseGet.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(IoScheduler())
+                .subscribe(
+                        { result ->
+                            println("SIZE")
+                            println(result.size)
+                            suggestionsAdapter = SuggestionsAdapter(result, this)
+                            rv_suggestions.adapter = suggestionsAdapter
+                            println("MainActivity oncreate")
+                        },
+                        { error -> println("Error $error") })
 
         fab_suggestions.setOnClickListener { view ->
             val dialogBuilder = AlertDialog.Builder(this)
-            // set message of alert dialog
-//            dialogBuilder.setMessage("Do you want to add a suggestion?")
-//                    // if the dialog is cancelable
-//                    .setCancelable(false)
-//                    // positive button text and action
-//                    .setPositiveButton("Submit", DialogInterface.OnClickListener {
-//                        dialog, id -> finish()
-//                    })
-//                    // negative button text and action
-//                    .setNegativeButton("Cancel", DialogInterface.OnClickListener {e
-//                        dialog, id -> dialog.cancel()
-//                    })
 
             val dialogView = inflate(this, R.layout.hintpod_dialog_add_suggestion, null)
 
@@ -73,14 +61,17 @@ class MainActivity : AppCompatActivity() {
                             println("ADD ${title.text}")
 
                             val responseAdd = apiService.addSuggestion(title.text.toString(), content.text.toString(), firebaseUId, firebasePId)
-                            responseAdd.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
-                                println("ADD $it")
+                            responseAdd.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler())
+                                    .subscribe(
+                                            { result ->
+                                                println("ADD $result")
+                                                Snackbar.make(view, "Submitted", Snackbar.LENGTH_LONG)
+                                                        .setAction("Action", null)
+                                                        .show()
+                                            },
+                                            { error -> println("Error $error") })
 
-                            }
 
-                            Snackbar.make(view, "Submitted", Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null)
-                                    .show()
                         } else {
                             Snackbar.make(view, "Please enter all fields", Snackbar.LENGTH_LONG)
                                     .setAction("Action", null)
@@ -108,24 +99,26 @@ class MainActivity : AppCompatActivity() {
             println("onRefresh called from SwipeRefreshLayout")
 
             // This method performs the actual data-refresh operation.
-            // The method calls setRefreshing(false) when it's finished.
             updateData()
 
         }
 
     }
 
-    private fun updateData(){
+    private fun updateData() {
         val responseGet = RetrofitClient().getClient().getSuggestions(firebasePId, null)
-        responseGet.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler()).subscribe {
-            println("SIZE")
-            println(it.size)
-            suggestionsAdapter = SuggestionsAdapter(it, this)
-            rv_suggestions.adapter = suggestionsAdapter
-            println("MainActivity update oncreate")
-            sr_suggestions.isRefreshing = false
-
-        }
+        responseGet.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(IoScheduler())
+                .subscribe(
+                        { result ->
+                            println("SIZE")
+                            println(result.size)
+                            suggestionsAdapter = SuggestionsAdapter(result, this)
+                            rv_suggestions.adapter = suggestionsAdapter
+                            println("MainActivity update oncreate")
+                            sr_suggestions.isRefreshing = false
+                        },
+                        { error -> println("Error $error") })
     }
 
 

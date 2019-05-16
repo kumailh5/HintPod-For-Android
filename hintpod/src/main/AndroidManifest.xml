@@ -6,7 +6,7 @@
 
     <application>
         <activity
-            android:name=".activities.MainActivity"
+            android:name="com.kumail.hintpod.activities.MainActivity"
             android:theme="@style/HintPodTheme"
             android:label="@string/hintpod_app_name">
             <intent-filter>
@@ -15,7 +15,7 @@
         </activity>
 
         <activity
-            android:name=".activities.SuggestionDetailedActivity"
+            android:name="com.kumail.hintpod.activities.SuggestionDetailedActivity"
             android:theme="@style/HintPodTheme"
             android:label="@string/hintpod_app_name">
             <intent-filter>
