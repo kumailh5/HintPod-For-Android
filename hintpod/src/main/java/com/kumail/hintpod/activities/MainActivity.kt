@@ -3,13 +3,13 @@ package com.kumail.hintpod.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View.inflate
-import androidx.appcompat.app.AlertDialog
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
-import com.kumail.hintpod.HintPod.Companion.firebasePId
-import com.kumail.hintpod.HintPod.Companion.firebaseUId
+import com.bestsoft32.tt_fancy_gif_dialog_lib.TTFancyGifDialog
+import com.bestsoft32.tt_fancy_gif_dialog_lib.TTFancyGifDialogListener
+import com.kumail.hintpod.HintPod.Companion.companyFBId
+import com.kumail.hintpod.HintPod.Companion.projectFBId
 import com.kumail.hintpod.R
 import com.kumail.hintpod.RetrofitClient
 import com.kumail.hintpod.adapters.SuggestionsAdapter
@@ -17,7 +17,7 @@ import com.kumail.hintpod.data.Suggestion
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.internal.schedulers.IoScheduler
 import kotlinx.android.synthetic.main.hintpod_activity_main.*
-import kotlinx.android.synthetic.main.hintpod_dialog_add_suggestion.view.*
+//import sun.jvm.hotspot.utilities.IntArray
 
 
 class MainActivity : AppCompatActivity() {
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         val apiService = RetrofitClient().getClient()
 
-        val responseGet = apiService.getSuggestions(firebasePId, null)
+        val responseGet = apiService.getSuggestions(companyFBId, projectFBId, null)
         responseGet.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(IoScheduler())
                 .subscribe(
@@ -45,50 +45,71 @@ class MainActivity : AppCompatActivity() {
                         },
                         { error -> println("Error $error") })
 
-        fab_suggestions.setOnClickListener { view ->
-            val dialogBuilder = AlertDialog.Builder(this)
-
-            val dialogView = inflate(this, R.layout.hintpod_dialog_add_suggestion, null)
-
-            dialogBuilder.setView(dialogView)
-                    .setCancelable(true)
-
-                    .setPositiveButton("Submit") { dialog, id ->
-                        val title = dialogView.et_title
-                        val content = dialogView.et_content
-
-                        if (title.text.isNotEmpty()) {
-                            println("ADD ${title.text}")
-
-                            val responseAdd = apiService.addSuggestion(title.text.toString(), content.text.toString(), firebaseUId, firebasePId)
-                            responseAdd.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler())
-                                    .subscribe(
-                                            { result ->
-                                                println("ADD $result")
-                                                Snackbar.make(view, "Submitted", Snackbar.LENGTH_LONG)
-                                                        .setAction("Action", null)
-                                                        .show()
-                                            },
-                                            { error -> println("Error $error") })
-
-
-                        } else {
-                            Snackbar.make(view, "Please enter all fields", Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null)
-                                    .show()
+        fab_suggestions.setOnClickListener {
+            TTFancyGifDialog.Builder(this@MainActivity)
+                    .setTitle("Online Shopping")
+                    .setMessage("You don't have time for shopping, Visit our website for online shopping with discount price.")
+                    .setPositiveBtnText("Ok")
+                    .setPositiveBtnBackground("#22b573")
+                    .setNegativeBtnText("Cancel")
+                    .setNegativeBtnBackground("#c1272d")
+                    .setGifResource(R.drawable.hintpod_ic_add)      //pass your gif, png or jpg
+                    .isCancellable(true)
+                    .OnPositiveClicked(object : TTFancyGifDialogListener {
+                        override fun OnClick() {
+                            Toast.makeText(this@MainActivity, "Ok", Toast.LENGTH_SHORT).show()
                         }
-
-                    }
-                    // negative button text and action
-                    .setNegativeButton("Cancel") { dialog, id ->
-                        dialog.cancel()
-                    }
-            // create dialog box
-            val alert = dialogBuilder.create()
-            // set title for alert dialog box
-            alert.setTitle("Add Suggestion")
-            // show alert dialog
-            alert.show()
+                    })
+                    .OnNegativeClicked(object : TTFancyGifDialogListener {
+                        override fun OnClick() {
+                            Toast.makeText(this@MainActivity, "Cancel", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+                    .build()
+//        fab_suggestions.setOnClickListener { view ->
+//            val dialogBuilder = AlertDialog.Builder(this)
+//
+//            val dialogView = inflate(this, R.layout.hintpod_dialog_add_suggestion, null)
+//
+//            dialogBuilder.setView(dialogView)
+//                    .setCancelable(true)
+//
+//                    .setPositiveButton("Submit") { dialog, id ->
+//                        val title = dialogView.et_title
+//                        val content = dialogView.et_content
+//
+//                        if (title.text.isNotEmpty()) {
+//                            println("ADD ${title.text}")
+//
+//                            val responseAdd = apiService.addSuggestion(title.text.toString(), content.text.toString(), uniqueFBId, projectFBId)
+//                            responseAdd.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler())
+//                                    .subscribe(
+//                                            { result ->
+//                                                println("ADD $result")
+//                                                Snackbar.make(view, "Submitted", Snackbar.LENGTH_LONG)
+//                                                        .setAction("Action", null)
+//                                                        .show()
+//                                            },
+//                                            { error -> println("Error $error") })
+//
+//
+//                        } else {
+//                            Snackbar.make(view, "Please enter all fields", Snackbar.LENGTH_LONG)
+//                                    .setAction("Action", null)
+//                                    .show()
+//                        }
+//
+//                    }
+//                    // negative button text and action
+//                    .setNegativeButton("Cancel") { dialog, id ->
+//                        dialog.cancel()
+//                    }
+//            // create dialog box
+//            val alert = dialogBuilder.create()
+//            // set title for alert dialog box
+//            alert.setTitle("Add Suggestion")
+//            // show alert dialog
+//            alert.show()
         }
 
         /*
@@ -106,7 +127,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateData() {
-        val responseGet = RetrofitClient().getClient().getSuggestions(firebasePId, null)
+        val responseGet = RetrofitClient().getClient().getSuggestions(companyFBId, projectFBId, null)
         responseGet.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(IoScheduler())
                 .subscribe(

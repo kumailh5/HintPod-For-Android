@@ -12,8 +12,9 @@ import io.reactivex.internal.schedulers.IoScheduler
 class HintPod : Application() {
 
     companion object {
-        var firebaseUId: String = ""
-        var firebasePId: String = ""
+        var uniqueFBId: String = ""
+        var projectFBId: String = ""
+        var companyFBId: String = ""
     }
 
     fun start(context: Context) {
@@ -21,8 +22,9 @@ class HintPod : Application() {
         startActivity(context, intent, null)
     }
 
-    fun verify(uniqueId: String, projectId: String, name: String?) {
-        firebasePId = projectId
+    fun verify(uniqueId: String, projectId: String, apikey: String, name: String?) {
+        projectFBId = projectId
+        companyFBId = apikey
         val apiService = RetrofitClient().getClient()
         val response = apiService.verifyUser(uniqueId, projectId, name)
         response.observeOn(AndroidSchedulers.mainThread())
@@ -30,7 +32,7 @@ class HintPod : Application() {
                 .subscribe(
                         { result ->
                             println("verified")
-                            firebaseUId = result.toString() },
+                            uniqueFBId = result.toString() },
                         { error -> println("Error $error") })
     }
 }

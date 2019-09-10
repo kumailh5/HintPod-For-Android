@@ -1,10 +1,10 @@
 package com.kumail.sample
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.kumail.hintpod.HintPod
 
 class MainActivity : AppCompatActivity() {
@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        HintPod().verify("k5@gmail.com","765678298", "Kumail")
+        HintPod().verify("k5@gmail.com", "68815057670", "JG5PbMdemnUKbu2wBNJjCvRLlr23", "Kumail")
 
         // Loads animals into the ArrayList
         addAnimals()

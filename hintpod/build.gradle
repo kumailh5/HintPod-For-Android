@@ -34,17 +34,19 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation 'androidx.core:core-ktx:1.0.1'
+    implementation 'androidx.core:core-ktx:1.0.2'
     implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
+    implementation 'androidx.appcompat:appcompat:1.1.0-beta01'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha5'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
 
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+
+    implementation project(":android-dialog")
 
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
@@ -73,7 +75,7 @@ ext {
     siteUrl = 'https://www.hintpod.com'
     gitUrl = 'https://github.com/kumailh5/HintPod-For-Android/'
 
-    libraryVersion = '0.1'
+    libraryVersion = '0.1.1'
 
     developerId = 'kumailh5'
     developerName = 'Kumail Hussain'

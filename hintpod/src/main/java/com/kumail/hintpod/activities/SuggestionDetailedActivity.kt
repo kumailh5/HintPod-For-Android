@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.kumail.hintpod.HintPod.Companion.firebaseUId
+import com.kumail.hintpod.HintPod.Companion.uniqueFBId
 import com.kumail.hintpod.R
 import com.kumail.hintpod.RetrofitClient
 import com.kumail.hintpod.adapters.CommentsAdapter
@@ -78,7 +78,7 @@ class SuggestionDetailedActivity : AppCompatActivity() {
         upvoteImageView.setOnClickListener {
             if (suggestion.upEnabled) {
                 upvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_grey))
-                val responseVoteSuggestion = apiService.voteSuggestion(firebaseUId, suggestion.key, "true", "false")
+                val responseVoteSuggestion = apiService.voteSuggestion(uniqueFBId, suggestion.key, "true", "false")
                 responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(IoScheduler())
                         .subscribe(
@@ -88,7 +88,7 @@ class SuggestionDetailedActivity : AppCompatActivity() {
             } else {
                 upvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_green))
                 downvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_grey))
-                val responseVoteSuggestion = apiService.voteSuggestion(firebaseUId, suggestion.key, "true", "true")
+                val responseVoteSuggestion = apiService.voteSuggestion(uniqueFBId, suggestion.key, "true", "true")
                 responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(IoScheduler())
                         .subscribe(
@@ -103,7 +103,7 @@ class SuggestionDetailedActivity : AppCompatActivity() {
         downvoteImageView.setOnClickListener {
             if (suggestion.downEnabled) {
                 downvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_grey))
-                val responseVoteSuggestion = apiService.voteSuggestion(firebaseUId, suggestion.key, "false", "false")
+                val responseVoteSuggestion = apiService.voteSuggestion(uniqueFBId, suggestion.key, "false", "false")
                 responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(IoScheduler())
                         .subscribe(
@@ -113,7 +113,7 @@ class SuggestionDetailedActivity : AppCompatActivity() {
             } else {
                 upvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_grey))
                 downvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_red))
-                val responseVoteSuggestion = apiService.voteSuggestion(firebaseUId, suggestion.key, "false", "true")
+                val responseVoteSuggestion = apiService.voteSuggestion(uniqueFBId, suggestion.key, "false", "true")
                 responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(IoScheduler())
                         .subscribe(
@@ -133,14 +133,14 @@ class SuggestionDetailedActivity : AppCompatActivity() {
                 println("Comment $comment")
 
                 if (comment.isNotEmpty()) {
-                    val responseAddComment = apiService.addComment(addCommentEditText.text.toString(), firebaseUId, suggestion.key)
+                    val responseAddComment = apiService.addComment(addCommentEditText.text.toString(), uniqueFBId, suggestion.key)
                     responseAddComment.observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(IoScheduler())
                             .subscribe(
                                     { result ->
                                         println("ADD $result")
                                         println("ADD ${suggestion.key}")
-                                        println("ADD $firebaseUId")
+                                        println("ADD $uniqueFBId")
                                         addCommentEditText.text.clear()
                                         Snackbar.make(v, "Submitted", Snackbar.LENGTH_LONG)
                                                 .show()
