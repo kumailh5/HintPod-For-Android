@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/hintpod_colorPrimary</item>
         <item name="colorPrimaryDark">@color/hintpod_colorPrimaryDark</item>
         <item name="colorAccent">@color/hintpod_colorAccent</item>
+
+
     </style>
 
 </resources>

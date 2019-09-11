@@ -3,11 +3,12 @@ package com.kumail.hintpod.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.KeyEvent
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.bottomsheets.BottomSheet
+import com.afollestad.materialdialogs.customview.customView
 import com.google.android.material.snackbar.Snackbar
 import com.kumail.hintpod.HintPod.Companion.uniqueFBId
 import com.kumail.hintpod.R
@@ -17,6 +18,7 @@ import com.kumail.hintpod.data.Suggestion
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.internal.schedulers.IoScheduler
 import kotlinx.android.synthetic.main.hintpod_activity_suggestion_detailed.*
+import kotlinx.android.synthetic.main.hintpod_dialog_add_comment.*
 
 
 class SuggestionDetailedActivity : AppCompatActivity() {
@@ -33,7 +35,7 @@ class SuggestionDetailedActivity : AppCompatActivity() {
         val upvoteImageView = iv_upvote!!
         val downvoteImageView = iv_downvote!!
         val voteCountTextView = tv_vote_count!!
-        val addCommentEditText = et_add_comment
+        val addCommentEditText = et_comment
         val apiService = RetrofitClient().getClient()
 
 //        val suggestion: Suggestion
@@ -125,35 +127,89 @@ class SuggestionDetailedActivity : AppCompatActivity() {
             }
         }
 
-        addCommentEditText.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
-                //Perform Code
+//        addCommentEditText.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+//            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+//                //Perform Code
+//
+//                val comment = addCommentEditText.text
+//                println("Comment $comment")
+//
+//                if (comment.isNotEmpty()) {
+//                    val responseAddComment = apiService.addComment(addCommentEditText.text.toString(), uniqueFBId, suggestion.key)
+//                    responseAddComment.observeOn(AndroidSchedulers.mainThread())
+//                            .subscribeOn(IoScheduler())
+//                            .subscribe(
+//                                    { result ->
+//                                        println("ADD $result")
+//                                        println("ADD ${suggestion.key}")
+//                                        println("ADD $uniqueFBId")
+//                                        addCommentEditText.text.clear()
+//                                    },
+//                                    { error -> println("Error $error") })
+//                    val snackbar: Snackbar = Snackbar.make(v, "Submitted", Snackbar.LENGTH_SHORT)
+//                    val snackBarView = snackbar.view
+//                    snackBarView.setBackgroundColor(getColor(R.color.hintpod_colorPrimary))
+//                    snackbar.show()
+//                } else {
+//                    val snackbar: Snackbar = Snackbar.make(v, "You haven't typed anything...", Snackbar.LENGTH_SHORT)
+//                    val snackBarView = snackbar.view
+//                    snackBarView.setBackgroundColor(getColor(R.color.hintpod_orange))
+//                    snackbar.show()
+//                }
+//                return@OnKeyListener true
+//            }
+//            false
+//        })
 
-                val comment = addCommentEditText.text
-                println("Comment $comment")
+        fab_comments.setOnClickListener {
+            MaterialDialog(this, BottomSheet()).show {
+                cornerRadius(res = R.dimen.hintpod_add_suggestion_dialog_corner_radius)
+                customView(R.layout.hintpod_dialog_add_comment)
+                title(R.string.hintpod_add_comment_dialog_title)
+                positiveButton(R.string.hintpod_add_suggestion_dialog_submit) { dialog ->
+                    // Do something
+                    val comment = et_comment.text
+//                    val content = et_content.text
 
-                if (comment.isNotEmpty()) {
-                    val responseAddComment = apiService.addComment(addCommentEditText.text.toString(), uniqueFBId, suggestion.key)
-                    responseAddComment.observeOn(AndroidSchedulers.mainThread())
-                            .subscribeOn(IoScheduler())
-                            .subscribe(
-                                    { result ->
-                                        println("ADD $result")
-                                        println("ADD ${suggestion.key}")
-                                        println("ADD $uniqueFBId")
-                                        addCommentEditText.text.clear()
-                                        Snackbar.make(v, "Submitted", Snackbar.LENGTH_LONG)
-                                                .show()
-                                    },
-                                    { error -> println("Error $error") })
-                } else {
-                    Snackbar.make(v, "You haven't typed anything", Snackbar.LENGTH_LONG)
-                            .show()
+                    if (comment.isNotEmpty()) {
+//                            println("ADD ${title.text}")
+                        val responseAddComment = apiService.addComment(comment.toString(), uniqueFBId, suggestion.key)
+                        responseAddComment.observeOn(AndroidSchedulers.mainThread())
+                                .subscribeOn(IoScheduler())
+                                .subscribe(
+                                        { result ->
+                                            println("ADD $result")
+                                            println("ADD ${suggestion.key}")
+                                            println("ADD $uniqueFBId")
+                                            addCommentEditText.text.clear()
+                                        },
+                                        { error -> println("Error $error") })
+
+                        val snackbar: Snackbar = Snackbar.make(view, "Submitted", Snackbar.LENGTH_LONG)
+                        val snackBarView = snackbar.view
+                        snackBarView.setBackgroundColor(getColor(R.color.hintpod_colorPrimary))
+                        snackbar.show()
+
+                    } else {
+                        val snackbar: Snackbar = Snackbar.make(view, "You haven't typed anything...", Snackbar.LENGTH_SHORT)
+                        val snackBarView = snackbar.view
+                        snackBarView.setBackgroundColor(getColor(R.color.hintpod_orange))
+                        snackbar.show()
+                        noAutoDismiss()
+                    }
                 }
-                return@OnKeyListener true
+                negativeButton(R.string.hintpod_add_suggestion_dialog_cancel) { dialog ->
+
+                    dialog.cancel()
+                    // Do something
+                    val snackbar: Snackbar = Snackbar.make(view, "Cancelled", Snackbar.LENGTH_LONG)
+                    val snackBarView = snackbar.view
+                    snackBarView.setBackgroundColor(getColor(R.color.hintpod_red_dark))
+                    snackbar.show()
+                }
             }
-            false
-        })
+        }
+
 
         // Creates a vertical Layout Manager
         rv_comments.layoutManager = LinearLayoutManager(this)

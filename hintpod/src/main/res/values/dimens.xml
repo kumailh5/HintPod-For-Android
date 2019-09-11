@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="hintpod_add_suggestion_dialog_corner_radius">16dp</dimen>
+
+</resources>

@@ -2,9 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.kumail.hintpod">
 
-    <application
-
-        tools:replace="android:label">
+    <application>
         <activity
             android:name="com.kumail.hintpod.activities.MainActivity"
             android:label="@string/hintpod_app_name"

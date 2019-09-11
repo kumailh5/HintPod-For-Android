@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.SuggestionDetailedActivity">
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -31,18 +33,6 @@
                     android:clickable="true"
                     android:focusable="true" />
 
-                <TextView
-                    android:id="@+id/tv_vote_count"
-                    android:layout_width="40dp"
-                    android:layout_height="25dp"
-                    android:layout_below="@id/iv_upvote"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="0dp"
-                    android:gravity="center"
-                    android:textColor="@color/hintpod_grey"
-                    android:textSize="20sp"
-                    tools:text="-2" />
-
                 <ImageView
                     android:id="@+id/iv_downvote"
                     android:layout_width="40dp"
@@ -66,6 +56,18 @@
                     android:paddingTop="2.5dp"
                     android:paddingEnd="2.5dp"
                     android:paddingBottom="18.5dp" />
+
+                <TextView
+                    android:id="@+id/tv_vote_count"
+                    android:layout_width="40dp"
+                    android:layout_height="25dp"
+                    android:layout_below="@id/iv_upvote"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="0dp"
+                    android:gravity="center"
+                    android:textColor="@color/hintpod_grey"
+                    android:textSize="20sp"
+                    tools:text="-2" />
 
 
                 <TextView
@@ -129,18 +131,17 @@
 
     </ScrollView>
 
-    <EditText
-        android:id="@+id/et_add_comment"
-        android:layout_width="match_parent"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_comments"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="14dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="14dp"
-        android:layout_marginBottom="4dp"
-        android:background="#FFFFFF"
-        android:hint="Add Comment"
-        android:inputType="text" />
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:backgroundTint="#29B6F6"
+        app:srcCompat="@drawable/hintpod_ic_message"
+        app:tint="#FFF" />
 
 
 </RelativeLayout>
