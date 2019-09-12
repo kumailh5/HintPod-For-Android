@@ -3,6 +3,7 @@ package com.kumail.hintpod.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
@@ -12,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.kumail.hintpod.HintPod.Companion.companyFBId
 import com.kumail.hintpod.HintPod.Companion.projectFBId
 import com.kumail.hintpod.HintPod.Companion.uniqueFBId
+import com.kumail.hintpod.HintPod.Companion.userTitle
 import com.kumail.hintpod.R
 import com.kumail.hintpod.RetrofitClient
 import com.kumail.hintpod.adapters.SuggestionsAdapter
@@ -37,6 +39,12 @@ class MainActivity : AppCompatActivity() {
 
         val apiService = RetrofitClient().getClient()
 
+        progress_bar.display
+
+        if(userTitle != null ) {
+            title = userTitle
+        }
+
         val responseGet = apiService.getSuggestions(companyFBId, projectFBId, null)
         responseGet.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(IoScheduler())
@@ -46,6 +54,7 @@ class MainActivity : AppCompatActivity() {
                             println(result.size)
                             suggestionsAdapter = SuggestionsAdapter(result, this)
                             rv_suggestions.adapter = suggestionsAdapter
+                            progress_bar.visibility = View.GONE
                             println("MainActivity oncreate")
                         },
                         { error -> println("Error $error") })
@@ -125,6 +134,10 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+//    public fun setTitles(title: String) {
+//        setTitle(title)
+//    }
 
     private fun updateData() {
         val responseGet = RetrofitClient().getClient().getSuggestions(companyFBId, projectFBId, null)
