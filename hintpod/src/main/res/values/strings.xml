@@ -8,4 +8,6 @@
     <string name="hintpod_add_comment_dialog_title">Add a comment</string>
     <string name="hintpod_add_suggestion_dialog_submit">Submit</string>
     <string name="hintpod_add_suggestion_dialog_cancel">Cancel</string>
+    <string name="hintpod_true">true</string>
+    <string name="hintpod_false">false</string>
 </resources>

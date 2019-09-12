@@ -9,4 +9,8 @@
     <color name="hintpod_red_dark">#d32f2f</color>
     <color name="hintpod_yellow">#ffea00</color>
     <color name="hintpod_orange">#F57C00</color>
+    <color name="hintpod_pink">#EC407A</color>
+    <color name="hintpod_indigo">#3949AB</color>
+    <color name="hintpod_purple">#8E24AA</color>
+    <color name="hintpod_teal">#00897B</color>
 </resources>

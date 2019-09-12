@@ -12,6 +12,5 @@ data class Suggestion(
         @SerializedName("status") val status: String,
         @SerializedName("voteCount") val voteCount: Int,
         @SerializedName("votes") var votes: MutableMap<String, String>,
-        var upEnabled: Boolean = false,
-        var downEnabled: Boolean = false
+        var vote: String?
 ) : Serializable

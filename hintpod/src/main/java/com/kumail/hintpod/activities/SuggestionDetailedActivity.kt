@@ -38,7 +38,6 @@ class SuggestionDetailedActivity : AppCompatActivity() {
         val addCommentEditText = et_comment
         val apiService = RetrofitClient().getClient()
 
-//        val suggestion: Suggestion
         val extras = intent.extras
         if (extras == null) {
             return
@@ -67,10 +66,10 @@ class SuggestionDetailedActivity : AppCompatActivity() {
         upvoteImageView.setImageResource(R.drawable.hintpod_ic_arrow_up)
         downvoteImageView.setImageResource(R.drawable.hintpod_ic_arrow_down)
 
-        if (suggestion.upEnabled) {
+        if (suggestion.vote == getString(R.string.hintpod_true)) {
             upvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_green))
 
-        } else if (suggestion.downEnabled) {
+        } else if (suggestion.vote == getString(R.string.hintpod_false)) {
             downvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_red))
         } else {
             upvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_grey))
@@ -78,7 +77,7 @@ class SuggestionDetailedActivity : AppCompatActivity() {
         }
 
         upvoteImageView.setOnClickListener {
-            if (suggestion.upEnabled) {
+            if (suggestion.vote == getString(R.string.hintpod_true)) {
                 upvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_grey))
                 val responseVoteSuggestion = apiService.voteSuggestion(uniqueFBId, suggestion.key, "true", "false")
                 responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread())
@@ -86,7 +85,7 @@ class SuggestionDetailedActivity : AppCompatActivity() {
                         .subscribe(
                                 { result -> println("Vote $result") },
                                 { error -> println("Error $error") })
-                suggestion.upEnabled = false
+                suggestion.vote = null
             } else {
                 upvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_green))
                 downvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_grey))
@@ -96,14 +95,14 @@ class SuggestionDetailedActivity : AppCompatActivity() {
                         .subscribe(
                                 { result -> println("Vote $result") },
                                 { error -> println("Error $error") })
-                suggestion.upEnabled = true
-                suggestion.downEnabled = false
+                suggestion.vote = getString(R.string.hintpod_true)
+
             }
             println("Upvote clicked")
         }
 
         downvoteImageView.setOnClickListener {
-            if (suggestion.downEnabled) {
+            if (suggestion.vote == getString(R.string.hintpod_false)) {
                 downvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_grey))
                 val responseVoteSuggestion = apiService.voteSuggestion(uniqueFBId, suggestion.key, "false", "false")
                 responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread())
@@ -111,7 +110,7 @@ class SuggestionDetailedActivity : AppCompatActivity() {
                         .subscribe(
                                 { result -> println("Vote $result") },
                                 { error -> println("Error $error") })
-                suggestion.downEnabled = false
+                suggestion.vote = null
             } else {
                 upvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_grey))
                 downvoteImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_red))
@@ -121,45 +120,10 @@ class SuggestionDetailedActivity : AppCompatActivity() {
                         .subscribe(
                                 { result -> println("Vote $result") },
                                 { error -> println("Error $error") })
-                suggestion.downEnabled = true
-                suggestion.upEnabled = false
+                suggestion.vote = getString(R.string.hintpod_false)
 
             }
         }
-
-//        addCommentEditText.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-//            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
-//                //Perform Code
-//
-//                val comment = addCommentEditText.text
-//                println("Comment $comment")
-//
-//                if (comment.isNotEmpty()) {
-//                    val responseAddComment = apiService.addComment(addCommentEditText.text.toString(), uniqueFBId, suggestion.key)
-//                    responseAddComment.observeOn(AndroidSchedulers.mainThread())
-//                            .subscribeOn(IoScheduler())
-//                            .subscribe(
-//                                    { result ->
-//                                        println("ADD $result")
-//                                        println("ADD ${suggestion.key}")
-//                                        println("ADD $uniqueFBId")
-//                                        addCommentEditText.text.clear()
-//                                    },
-//                                    { error -> println("Error $error") })
-//                    val snackbar: Snackbar = Snackbar.make(v, "Submitted", Snackbar.LENGTH_SHORT)
-//                    val snackBarView = snackbar.view
-//                    snackBarView.setBackgroundColor(getColor(R.color.hintpod_colorPrimary))
-//                    snackbar.show()
-//                } else {
-//                    val snackbar: Snackbar = Snackbar.make(v, "You haven't typed anything...", Snackbar.LENGTH_SHORT)
-//                    val snackBarView = snackbar.view
-//                    snackBarView.setBackgroundColor(getColor(R.color.hintpod_orange))
-//                    snackbar.show()
-//                }
-//                return@OnKeyListener true
-//            }
-//            false
-//        })
 
         fab_comments.setOnClickListener {
             MaterialDialog(this, BottomSheet()).show {
@@ -169,10 +133,7 @@ class SuggestionDetailedActivity : AppCompatActivity() {
                 positiveButton(R.string.hintpod_add_suggestion_dialog_submit) { dialog ->
                     // Do something
                     val comment = et_comment.text
-//                    val content = et_content.text
-
                     if (comment.isNotEmpty()) {
-//                            println("ADD ${title.text}")
                         val responseAddComment = apiService.addComment(comment.toString(), uniqueFBId, suggestion.key)
                         responseAddComment.observeOn(AndroidSchedulers.mainThread())
                                 .subscribeOn(IoScheduler())
@@ -210,7 +171,6 @@ class SuggestionDetailedActivity : AppCompatActivity() {
             }
         }
 
-
         // Creates a vertical Layout Manager
         rv_comments.layoutManager = LinearLayoutManager(this)
 
@@ -220,6 +180,7 @@ class SuggestionDetailedActivity : AppCompatActivity() {
                 .subscribe(
                         { result ->
                             rv_comments.adapter = CommentsAdapter(result, this)
+                            println("Here" + result)
                         },
                         { error -> println("Error $error") })
 
