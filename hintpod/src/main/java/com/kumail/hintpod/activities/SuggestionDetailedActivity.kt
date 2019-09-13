@@ -41,7 +41,6 @@ class SuggestionDetailedActivity : AppCompatActivity() {
         val statusIndicatorImageView = iv_status_indicator
         val upvoteImageView = iv_upvote!!
         val downvoteImageView = iv_downvote!!
-        val imageView = image!!
         val addCommentEditText = et_comment
         val apiService = RetrofitClient().getClient()
 
@@ -189,9 +188,7 @@ class SuggestionDetailedActivity : AppCompatActivity() {
 
                             progress_bar.visibility = View.GONE
                             if (result.isEmpty()) {
-                                Picasso.get()
-                                        .load(R.drawable.img)
-                                        .into(imageView)
+                                tv_comment.text = "No Comments"
                             }
                         },
                         { error -> println("Error in getting comments $error") })

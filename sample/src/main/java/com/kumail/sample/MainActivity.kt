@@ -6,20 +6,15 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.kumail.hintpod.HintPod
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    // Initializing an empty ArrayList to be filled with animals
-    val animals: ArrayList<String> = ArrayList()
-    val desc: ArrayList<String> = ArrayList()
-    val status: ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         HintPod().verify("k5@gmail.com", "68815057670", "JG5PbMdemnUKbu2wBNJjCvRLlr23", "Kumail")
-        HintPod().setTitle("Sample")
+        HintPod().setTitle("HintPod")
         HintPod().setHintPodTheme(R.style.AppTheme)
         // Loads animals into the ArrayList
     }
