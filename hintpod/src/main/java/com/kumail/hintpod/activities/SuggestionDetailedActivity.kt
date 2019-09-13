@@ -3,6 +3,7 @@ package com.kumail.hintpod.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,11 +11,14 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.afollestad.materialdialogs.customview.customView
 import com.google.android.material.snackbar.Snackbar
+import com.kumail.hintpod.HintPod
 import com.kumail.hintpod.HintPod.Companion.uniqueFBId
+import com.kumail.hintpod.HintPod.Companion.userTitle
 import com.kumail.hintpod.R
 import com.kumail.hintpod.RetrofitClient
 import com.kumail.hintpod.adapters.CommentsAdapter
 import com.kumail.hintpod.data.Suggestion
+import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.internal.schedulers.IoScheduler
 import kotlinx.android.synthetic.main.hintpod_activity_suggestion_detailed.*
@@ -26,6 +30,9 @@ class SuggestionDetailedActivity : AppCompatActivity() {
     private var position: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (HintPod.userTheme != 0) {
+            setTheme(HintPod.userTheme)
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.hintpod_activity_suggestion_detailed)
         val suggestionTitleTextView = tv_suggestion_title
@@ -34,7 +41,7 @@ class SuggestionDetailedActivity : AppCompatActivity() {
         val statusIndicatorImageView = iv_status_indicator
         val upvoteImageView = iv_upvote!!
         val downvoteImageView = iv_downvote!!
-        val voteCountTextView = tv_vote_count!!
+        val imageView = image!!
         val addCommentEditText = et_comment
         val apiService = RetrofitClient().getClient()
 
@@ -44,7 +51,11 @@ class SuggestionDetailedActivity : AppCompatActivity() {
         } else {
             suggestion = intent.extras.get("suggestionObject") as Suggestion
             position = intent.extras.get("position") as Int
+        }
 
+        progress_bar.display
+        if (userTitle != null) {
+            title = userTitle
         }
 
         suggestionTitleTextView?.text = suggestion.title
@@ -61,7 +72,6 @@ class SuggestionDetailedActivity : AppCompatActivity() {
         else
             statusIndicatorImageView.setColorFilter(ContextCompat.getColor(this, R.color.hintpod_red))
 
-        voteCountTextView.text = suggestion.voteCount.toString()
 
         upvoteImageView.setImageResource(R.drawable.hintpod_ic_arrow_up)
         downvoteImageView.setImageResource(R.drawable.hintpod_ic_arrow_down)
@@ -98,7 +108,6 @@ class SuggestionDetailedActivity : AppCompatActivity() {
                 suggestion.vote = getString(R.string.hintpod_true)
 
             }
-            println("Upvote clicked")
         }
 
         downvoteImageView.setOnClickListener {
@@ -121,7 +130,6 @@ class SuggestionDetailedActivity : AppCompatActivity() {
                                 { result -> println("Vote $result") },
                                 { error -> println("Error $error") })
                 suggestion.vote = getString(R.string.hintpod_false)
-
             }
         }
 
@@ -139,9 +147,6 @@ class SuggestionDetailedActivity : AppCompatActivity() {
                                 .subscribeOn(IoScheduler())
                                 .subscribe(
                                         { result ->
-                                            println("ADD $result")
-                                            println("ADD ${suggestion.key}")
-                                            println("ADD $uniqueFBId")
                                             addCommentEditText.text.clear()
                                         },
                                         { error -> println("Error $error") })
@@ -180,20 +185,24 @@ class SuggestionDetailedActivity : AppCompatActivity() {
                 .subscribe(
                         { result ->
                             rv_comments.adapter = CommentsAdapter(result, this)
-                            println("Here" + result)
-                        },
-                        { error -> println("Error $error") })
+                            println("Here sgs" + result)
 
-        println("here suggestion detailed act")
+                            progress_bar.visibility = View.GONE
+                            if (result.isEmpty()) {
+                                Picasso.get()
+                                        .load(R.drawable.img)
+                                        .into(imageView)
+                            }
+                        },
+                        { error -> println("Error in getting comments $error") })
+
     }
 
     override fun onBackPressed() {
         val returnIntent = Intent()
         returnIntent.putExtra("updatedSuggestion", suggestion)
         returnIntent.putExtra("position", position)
-        println("Mainac on back $suggestion")
         setResult(Activity.RESULT_OK, returnIntent)
         finish()
-
     }
 }

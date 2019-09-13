@@ -2,7 +2,7 @@
 <resources>
     <color name="hintpod_colorPrimary">#108DFF</color>
     <color name="hintpod_colorPrimaryDark">#0061cb</color>
-    <color name="hintpod_colorAccent">#6cbdff</color>
+    <color name="hintpod_colorAccent">#00B0FF</color>
     <color name="hintpod_grey">#757575</color>
     <color name="hintpod_green">#00e676</color>
     <color name="hintpod_red">#ff1744</color>

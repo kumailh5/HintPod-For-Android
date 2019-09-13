@@ -78,8 +78,6 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
         else
             holder.statusIndicatorImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_red))
 
-        holder.voteCountTextView.text = suggestion.voteCount.toString()
-
         holder.upvoteImageView.setImageResource(R.drawable.hintpod_ic_arrow_up)
         holder.downvoteImageView.setImageResource(R.drawable.hintpod_ic_arrow_down)
 
@@ -107,8 +105,6 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
 
         }
 
-        println("votearray " + suggestion.votes.filter { it.key == uniqueFBId })
-
         holder.upvoteImageView.setOnClickListener {
             if (vote == context.getString(R.string.hintpod_true)) {
                 holder.upvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_grey))
@@ -121,7 +117,6 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
                 suggestion.votes.remove(uniqueFBId)
                 notifyItemChanged(position, suggestion)
                 vote = null
-                println("votegrey")
 
             } else {
                 holder.upvoteImageView.setColorFilter(ContextCompat.getColor(context, R.color.hintpod_green))
@@ -135,7 +130,6 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
                 suggestion.votes[uniqueFBId] = context.getString(R.string.hintpod_true)
                 notifyItemChanged(position, suggestion)
                 vote = context.getString(R.string.hintpod_true)
-                println("votegreen")
 
             }
             suggestion.vote = vote
@@ -153,11 +147,10 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
                 suggestion.votes.remove(uniqueFBId)
                 notifyItemChanged(position, suggestion)
                 vote = null
-                println("votegreydown" + suggestion.votes)
             } else {
                 holder.upvoteImageView.setColorFilter(R.color.hintpod_grey)
                 holder.downvoteImageView.setColorFilter(R.color.hintpod_red)
-                val responseVoteSuggestion = apiService.voteSuggestion(uniqueFBId, suggestion.key, "true", "true")
+                val responseVoteSuggestion = apiService.voteSuggestion(uniqueFBId, suggestion.key, "false", "true")
                 responseVoteSuggestion.observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(IoScheduler())
                         .subscribe(
@@ -166,7 +159,6 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
                 suggestion.votes[uniqueFBId] = context.getString(R.string.hintpod_false)
                 notifyItemChanged(position, suggestion)
                 vote = context.getString(R.string.hintpod_false)
-                println("votered" + suggestion.votes)
             }
             suggestion.vote = vote
 
@@ -178,12 +170,9 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
             intent.putExtra("position", position)
             (context as Activity).startActivityForResult(intent, 1)
         }
-        println("MainAc bindview suggestionadapter $suggestion")
     }
 
     fun updateAdapter(suggestion: Suggestion, position: Int) {
-        println("MainAc adpater")
-        println("Mainac $suggestion")
         notifyItemChanged(position, suggestion)
     }
 
@@ -195,7 +184,6 @@ class SuggestionsAdapter(val suggestionsList: List<Suggestion>, val context: Con
         val statusIndicatorImageView = view.iv_status_indicator!!
         val upvoteImageView = view.iv_upvote!!
         val downvoteImageView = view.iv_downvote!!
-        val voteCountTextView = view.tv_vote_count!!
     }
 
 }

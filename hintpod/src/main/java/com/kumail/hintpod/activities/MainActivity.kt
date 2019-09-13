@@ -13,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.kumail.hintpod.HintPod.Companion.companyFBId
 import com.kumail.hintpod.HintPod.Companion.projectFBId
 import com.kumail.hintpod.HintPod.Companion.uniqueFBId
+import com.kumail.hintpod.HintPod.Companion.userTheme
 import com.kumail.hintpod.HintPod.Companion.userTitle
 import com.kumail.hintpod.R
 import com.kumail.hintpod.RetrofitClient
@@ -32,6 +33,9 @@ class MainActivity : AppCompatActivity() {
     var suggestionsAdapter: SuggestionsAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (userTheme != 0) {
+            setTheme(userTheme)
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.hintpod_activity_main)
         // Creates a vertical Layout Manager
@@ -72,7 +76,6 @@ class MainActivity : AppCompatActivity() {
                     val content = et_content.text
 
                     if (title.isNotEmpty()) {
-//                            println("ADD ${title.text}")
 
                         val responseAdd = apiService.addSuggestion(title.toString(), content.toString(), uniqueFBId, projectFBId)
                         responseAdd.observeOn(AndroidSchedulers.mainThread()).subscribeOn(IoScheduler())
@@ -85,8 +88,6 @@ class MainActivity : AppCompatActivity() {
                         val snackbar: Snackbar = Snackbar.make(view, "Submitted", Snackbar.LENGTH_LONG)
                         val snackBarView = snackbar.view
                         snackBarView.setBackgroundColor(getColor(R.color.hintpod_colorPrimary))
-//                    val textView = snackBarView.findViewById() as TextView
-//                    textView.setTextColor(textColor)
                         snackbar.show()
 
 
@@ -94,8 +95,6 @@ class MainActivity : AppCompatActivity() {
                         val snackbar: Snackbar = Snackbar.make(view, "Please type something...", Snackbar.LENGTH_SHORT)
                         val snackBarView = snackbar.view
                         snackBarView.setBackgroundColor(getColor(R.color.hintpod_orange))
-//                    val textView = snackBarView.findViewById() as TextView
-//                    textView.setTextColor(textColor)
                         snackbar.show()
                         noAutoDismiss()
 
@@ -104,16 +103,10 @@ class MainActivity : AppCompatActivity() {
                 negativeButton(R.string.hintpod_add_suggestion_dialog_cancel) { dialog ->
                     dialog.cancel()
                     // Do something
-//                    Snackbar.make(view, "Cancelled", Snackbar.LENGTH_LONG)
-//                            .setAction("Action", null)
-//                            .view.setBackgroundColor(com.kumail.hintpod.R.style.Widget_AppCompat_Button_Borderless_Colored)
-//                            .show()
 
                     val snackbar: Snackbar = Snackbar.make(view, "Cancelled", Snackbar.LENGTH_LONG)
                     val snackBarView = snackbar.view
                     snackBarView.setBackgroundColor(getColor(R.color.hintpod_red_dark))
-//                    val textView = snackBarView.findViewById() as TextView
-//                    textView.setTextColor(textColor)
                     snackbar.show()
 
                 }
@@ -127,17 +120,11 @@ class MainActivity : AppCompatActivity() {
  */
         sr_suggestions.setOnRefreshListener {
             println("onRefresh called from SwipeRefreshLayout")
-
             // This method performs the actual data-refresh operation.
             updateData()
-
         }
 
     }
-
-//    public fun setTitles(title: String) {
-//        setTitle(title)
-//    }
 
     private fun updateData() {
         val responseGet = RetrofitClient().getClient().getSuggestions(companyFBId, projectFBId, null)

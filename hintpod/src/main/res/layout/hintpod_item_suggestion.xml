@@ -37,23 +37,11 @@
             android:clickable="true"
             android:focusable="true" />
 
-        <TextView
-            android:id="@+id/tv_vote_count"
-            android:layout_width="40dp"
-            android:layout_height="25dp"
-            android:layout_below="@id/iv_upvote"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="0dp"
-            android:textColor="@color/hintpod_grey"
-            android:gravity="center"
-            android:textSize="20sp"
-            tools:text="-2" />
-
         <ImageView
             android:id="@+id/iv_downvote"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_below="@id/tv_vote_count"
+            android:layout_below="@id/iv_upvote"
             android:layout_marginStart="16dp"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="0dp"
@@ -66,18 +54,13 @@
             android:id="@+id/iv_status_indicator"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_below="@id/iv_downvote"
             android:layout_marginStart="16dp"
+            android:layout_below="@+id/tv_suggestion_body"
             android:paddingStart="2.5dp"
             android:paddingTop="2.5dp"
             android:paddingEnd="2.5dp"
             android:paddingBottom="18.5dp" />
 
-        <!--</RelativeLayout>-->
-
-        <!--<RelativeLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent">-->
 
         <TextView
             android:id="@+id/tv_suggestion_title"
@@ -119,8 +102,5 @@
             android:textSize="15sp" />
 
     </RelativeLayout>
-
-    <!--</LinearLayout>-->
-
 
 </androidx.cardview.widget.CardView>

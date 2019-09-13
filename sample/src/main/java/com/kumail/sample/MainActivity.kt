@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.kumail.hintpod.HintPod
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     // Initializing an empty ArrayList to be filled with animals
@@ -18,26 +19,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         HintPod().verify("k5@gmail.com", "68815057670", "JG5PbMdemnUKbu2wBNJjCvRLlr23", "Kumail")
-
+        HintPod().setTitle("Sample")
+        HintPod().setHintPodTheme(R.style.AppTheme)
         // Loads animals into the ArrayList
-        addAnimals()
-        addDesc()
-        addStatus()
-
-        // Creates a vertical Layout Manager
-//        rv_suggestions.layoutManager = LinearLayoutManager(this)
-
-        // Access the RecyclerView Adapter and load the data into it
-//        rv_suggestions.adapter = SuggestionsAdapter(animals, desc, status, this)
-
-
-//        btn.setOnClickListener {
-//            // Handler code here.
-//            Log.d("TAG", "btn pressed")
-//            t.start(this, "Here's HintPod")
-//        }
     }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_toolbar, menu)
@@ -67,81 +52,6 @@ class MainActivity : AppCompatActivity() {
 
     fun msgShow(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
-    }
-
-    // Adds animals to the empty animals ArrayList
-    fun addAnimals() {
-        animals.add("dog")
-        animals.add("cat")
-        animals.add("owl")
-        animals.add("cheetah")
-        animals.add("raccoon")
-        animals.add("bird")
-        animals.add("snake")
-        animals.add("lizard")
-        animals.add("hamster")
-        animals.add("bear")
-        animals.add("lion")
-        animals.add("tiger")
-        animals.add("horse")
-        animals.add("frog")
-        animals.add("fish")
-        animals.add("shark")
-        animals.add("turtle")
-        animals.add("elephant")
-        animals.add("cow")
-        animals.add("beaver")
-        animals.add("bison")
-        animals.add("porcupine")
-        animals.add("rat")
-        animals.add("mouse")
-        animals.add("goose")
-        animals.add("deer")
-        animals.add("fox")
-        animals.add("moose")
-        animals.add("buffalo")
-        animals.add("monkey")
-        animals.add("penguin")
-        animals.add("cheetah")
-    }
-
-    fun addDesc() {
-        desc.add("brown tiny cute")
-        desc.add("brown tiny cute")
-        desc.add("brown tiny cute")
-        desc.add("brown tiny cute")
-        desc.add("brown tiny cute")
-        desc.add("brown tiny cute")
-        desc.add("brown tiny cute")
-        desc.add("brown tiny cute")
-        desc.add("brown tiny cute")
-    }
-
-    fun addStatus() {
-        status.add("Pending")
-        status.add("Approved")
-        status.add("Rejected")
-        status.add("Rejected")
-        status.add("Rejected")
-        status.add("Rejected")
-        status.add("Rejected")
-        status.add("Rejected")
-        status.add("Rejected")
-        status.add("Rejected")
-        status.add("Rejected")
-        status.add("Rejected")
-        status.add("Rejected")
-        status.add("Rejected")
-        status.add("Rejected")
-        status.add("Rejected")
-        status.add("Rejected")
-        status.add("Rejected")
-        status.add("Rejected")
-        status.add("Rejected")
-        status.add("Rejected")
-        status.add("Rejected")
-        status.add("Rejected")
-        status.add("Rejected")
     }
 
 

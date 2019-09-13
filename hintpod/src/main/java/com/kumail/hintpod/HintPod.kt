@@ -15,6 +15,8 @@ class HintPod : Application() {
         var uniqueFBId: String = ""
         var projectFBId: String = ""
         var companyFBId: String = ""
+        var userTitle: String? = null
+        var userTheme: Int = 0
     }
 
     fun start(context: Context) {
@@ -32,7 +34,17 @@ class HintPod : Application() {
                 .subscribe(
                         { result ->
                             println("verified")
-                            uniqueFBId = result.toString() },
+                            uniqueFBId = result.toString()
+                        },
                         { error -> println("Error $error") })
+    }
+
+    fun setTitle(title: String) {
+        println(title)
+        userTitle = title
+    }
+
+    fun setHintPodTheme(theme: Int) {
+        userTheme = theme
     }
 }

@@ -6,7 +6,17 @@
         <item name="colorPrimary">@color/hintpod_colorPrimary</item>
         <item name="colorPrimaryDark">@color/hintpod_colorPrimaryDark</item>
         <item name="colorAccent">@color/hintpod_colorAccent</item>
+        <item name="colorSecondary">@color/hintpod_colorAccent</item>
+        <item name="floatingActionButtonStyle">#FFF</item>
 
+
+    </style>
+
+    <style name="HintPodRedTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/hintpod_red</item>
+        <item name="colorPrimaryDark">@color/hintpod_red_dark</item>
+        <item name="colorAccent">@color/hintpod_orange</item>
 
     </style>
 

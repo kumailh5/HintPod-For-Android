@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:layout_gravity="center"
+        android:max="100"
+        android:minWidth="60dp"
+        android:minHeight="60dp"
+        android:progress="1" />
+
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/sr_suggestions"
         android:layout_width="match_parent"
@@ -18,15 +31,11 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_suggestions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:backgroundTint="#29B6F6"
-        app:srcCompat="@drawable/hintpod_ic_add"
-        app:tint="#FFF" />
-
+        app:srcCompat="@drawable/hintpod_ic_add" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
