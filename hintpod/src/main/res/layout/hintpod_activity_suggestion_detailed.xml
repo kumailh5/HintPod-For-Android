@@ -125,11 +125,25 @@
                 android:id="@+id/rv_comments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_comment" />
+                android:layout_below="@id/tv_comment"
+                android:paddingBottom="20dp"/>
 
         </RelativeLayout>
 
     </ScrollView>
+
+    <TextView
+        android:id="@+id/tv_hintpod_powered_by"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/hintpod_tv_border"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:padding="7dp"
+        android:text="@string/hintpod_powered_by"
+        android:textSize="16sp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_comments"

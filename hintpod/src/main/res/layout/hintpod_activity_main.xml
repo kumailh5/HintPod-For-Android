@@ -11,13 +11,12 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:indeterminate="true"
         android:layout_gravity="center"
+        android:indeterminate="true"
         android:max="100"
         android:minWidth="60dp"
         android:minHeight="60dp"
         android:progress="1" />
-
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/sr_suggestions"
@@ -27,9 +26,23 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_suggestions"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:paddingBottom="29dp" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/tv_hintpod_powered_by"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/hintpod_tv_border"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:padding="7dp"
+        android:text="@string/hintpod_powered_by"
+        android:textSize="16sp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_suggestions"

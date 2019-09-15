@@ -2,6 +2,7 @@ package com.kumail.hintpod.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -45,8 +46,29 @@ class MainActivity : AppCompatActivity() {
 
         progress_bar.display
 
-        if(userTitle != null ) {
+        if (userTitle != null) {
             title = userTitle
+        }
+
+        tv_hintpod_powered_by.setOnClickListener {
+            MaterialDialog(this).show {
+                title(R.string.hintpod_redirecting_title)
+                message(R.string.hintpod_redirecting_message)
+
+                positiveButton(R.string.hintpod_redirecting_yes) { dialog ->
+                    // Do something
+                    val url = getString(R.string.hintpod_url)
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }
+                negativeButton(R.string.hintpod_redirecting_cancel) { dialog ->
+                    // Do something
+                    dismiss()
+                }
+            }
+
+
         }
 
         val responseGet = apiService.getSuggestions(companyFBId, projectFBId, null)
@@ -59,7 +81,6 @@ class MainActivity : AppCompatActivity() {
                             suggestionsAdapter = SuggestionsAdapter(result, this)
                             rv_suggestions.adapter = suggestionsAdapter
                             progress_bar.visibility = View.GONE
-                            println("MainActivity oncreate")
                         },
                         { error -> println("Error $error") })
 

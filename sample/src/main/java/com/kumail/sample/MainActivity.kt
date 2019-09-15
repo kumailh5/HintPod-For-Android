@@ -16,8 +16,9 @@ class MainActivity : AppCompatActivity() {
         HintPod().verify("k5@gmail.com", "68815057670", "JG5PbMdemnUKbu2wBNJjCvRLlr23", "Kumail")
         HintPod().setTitle("HintPod")
         HintPod().setHintPodTheme(R.style.AppTheme)
-        // Loads animals into the ArrayList
+
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_toolbar, menu)

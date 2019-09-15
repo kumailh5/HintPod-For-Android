@@ -2,6 +2,7 @@ package com.kumail.hintpod.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +19,6 @@ import com.kumail.hintpod.R
 import com.kumail.hintpod.RetrofitClient
 import com.kumail.hintpod.adapters.CommentsAdapter
 import com.kumail.hintpod.data.Suggestion
-import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.internal.schedulers.IoScheduler
 import kotlinx.android.synthetic.main.hintpod_activity_suggestion_detailed.*
@@ -55,6 +55,26 @@ class SuggestionDetailedActivity : AppCompatActivity() {
         progress_bar.display
         if (userTitle != null) {
             title = userTitle
+        }
+
+        tv_hintpod_powered_by.setOnClickListener {
+            MaterialDialog(this).show {
+                title(R.string.hintpod_redirecting_title)
+                message(R.string.hintpod_redirecting_message)
+
+                positiveButton(R.string.hintpod_redirecting_yes) { dialog ->
+                    // Do something
+                    val url = getString(R.string.hintpod_url)
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }
+                negativeButton(R.string.hintpod_redirecting_cancel) { dialog ->
+                    // Do something
+                    dismiss()
+                }
+            }
+
         }
 
         suggestionTitleTextView?.text = suggestion.title

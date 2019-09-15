@@ -26,7 +26,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation project(':hintpod')
-//    implementation 'com.hintpod:hintpod:0.1'
+//    implementation 'com.hintpod:hintpod:0.2'
 
 
     implementation 'com.google.android.material:material:1.1.0-alpha05'

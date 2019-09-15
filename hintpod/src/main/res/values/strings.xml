@@ -10,4 +10,10 @@
     <string name="hintpod_add_suggestion_dialog_cancel">Cancel</string>
     <string name="hintpod_true">true</string>
     <string name="hintpod_false">false</string>
+    <string name="hintpod_powered_by">Powered by <font color='#108DFF'>HintPod</font></string>
+    <string name="hintpod_url">https://www.hintpod.com</string>
+    <string name="hintpod_redirecting_title">Redirecting to HintPod\'s website</string>
+    <string name="hintpod_redirecting_message">This suggestions screen is powered by HintPod.\nWould you like to visit our website to find out more?</string>
+    <string name="hintpod_redirecting_yes">Yes</string>
+    <string name="hintpod_redirecting_cancel">Cancel</string>
 </resources>
